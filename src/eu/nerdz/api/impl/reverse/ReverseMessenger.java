@@ -20,6 +20,7 @@
 package eu.nerdz.api.impl.reverse;
 
 
+import eu.nerdz.api.LoginException;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +47,7 @@ public class ReverseMessenger extends ReverseApplication implements Messenger {
 
     private ConversationHandler conversationHandler;
 
-    public ReverseMessenger(String user, String password) throws IOException, HttpException {
+    public ReverseMessenger(String user, String password) throws IOException, HttpException, LoginException {
         super(user, password);
         this.conversationHandler = new ConversationHandler() {
 

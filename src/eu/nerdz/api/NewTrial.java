@@ -8,7 +8,7 @@ public class NewTrial {
 
         try {
 
-            Messenger messenger = new ReverseMessenger("AlexZ", "");
+            Messenger messenger = new ReverseMessenger("", "22.alex");
             ConversationHandler conversationHandler = messenger.getConversationHandler();
 
             for (Conversation conversation : conversationHandler.getConversations()) {
@@ -20,7 +20,7 @@ public class NewTrial {
 
             }
 
-            messenger.sendMessage("AlexZ", "prova");
+            messenger.sendMessage("Gesù", "test1");
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -19,6 +19,7 @@
 
 package eu.nerdz.api.impl.reverse;
 
+import eu.nerdz.api.LoginException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -57,7 +58,7 @@ class ReverseApplication implements Application {
     protected DefaultHttpClient httpClient;
     protected String token;
 
-    protected ReverseApplication(String user, String password) throws IOException, HttpException {
+    protected ReverseApplication(String user, String password) throws IOException, HttpException, LoginException {
 
         this.userName = user;
         this.password = password;
@@ -78,7 +79,7 @@ class ReverseApplication implements Application {
 
         String responseBody = this.post("/pages/profile/login.json.php", form, null, true);
         if( responseBody.contains("error")){
-            throw new HttpException(401, responseBody);
+            throw new LoginException();
         }
     }
 
