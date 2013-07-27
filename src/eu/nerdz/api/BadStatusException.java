@@ -20,7 +20,7 @@
 package eu.nerdz.api;
 
 /**
- * Created by marco on 7/27/13.
+ * Indicates that some request involving a JSON response has returned a JSONObject containing a status different than "ok".
  */
 public class BadStatusException extends Exception {
 

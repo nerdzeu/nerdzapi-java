@@ -17,18 +17,12 @@
     (C) 2013 Marco Cilloni <marco.cilloni@yahoo.com>
 */
 
-package eu.nerdz.api;
+package eu.nerdz.api.messages;
 
-import java.io.IOException;
-import java.util.List;
+import eu.nerdz.api.ContentEntry;
 
-/**
- * Created by marco on 7/21/13.
- */
-public interface ConversationHandler {
-    public List<Conversation> getConversations() throws IOException, HttpException, ContentException;
-    public List<Message> getMessagesFromConversation(Conversation conversation) throws IOException, HttpException, ContentException;
-    public List<Message> getMessagesFromConversation(Conversation conversation, int start, int howMany) throws IOException, HttpException, ContentException;
-    public void deleteConversation(Conversation conversation) throws IOException, HttpException, BadStatusException, ContentException;
-
+public interface Message extends ContentEntry<String> {
+	public String getSenderName();
+	public int getSenderID();
+	public boolean read(); //stub
 }

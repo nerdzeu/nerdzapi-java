@@ -20,11 +20,24 @@
 package eu.nerdz.api;
 
 /**
- * Created by marco on 7/16/13.
+ * Interface representing a basic NerdzApi application.
+ * The Application contains login information, and takes care internally of validating access to the NERDZ website.
+ *
+ * @author Marco Cilloni
+ * @version 0.1
  */
 public interface Application {
 
+    /**
+     * Gets the username associated with this Application instance during the login process.
+     * @return a valid NERDZ username (without any kind of escaping)
+     */
     public String getUsername();
+
+    /**
+     * Gets the current user ID.
+     * @return a valid user ID, representing this Application user.
+     */
     public int getUserID();
 
 }

@@ -20,7 +20,7 @@
 package eu.nerdz.api;
 
 /**
- * Created by marco on 7/21/13.
+ * Raised when the application encounters wrong responses or content.
  */
 public class ContentException extends Exception {
     public ContentException(String msg) {

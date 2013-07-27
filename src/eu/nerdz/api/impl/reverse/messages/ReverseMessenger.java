@@ -17,7 +17,7 @@
     (C) 2013 Marco Cilloni <marco.cilloni@yahoo.com>
 */
 
-package eu.nerdz.api.impl.reverse;
+package eu.nerdz.api.impl.reverse.messages;
 
 
 import eu.nerdz.api.LoginException;
@@ -34,21 +34,33 @@ import java.util.List;
 
 import eu.nerdz.api.BadStatusException;
 import eu.nerdz.api.ContentException;
-import eu.nerdz.api.Conversation;
-import eu.nerdz.api.ConversationHandler;
+import eu.nerdz.api.impl.reverse.ReverseApplication;
+import eu.nerdz.api.messages.Conversation;
+import eu.nerdz.api.messages.ConversationHandler;
 import eu.nerdz.api.HttpException;
-import eu.nerdz.api.Message;
-import eu.nerdz.api.Messenger;
+import eu.nerdz.api.messages.Message;
+import eu.nerdz.api.messages.Messenger;
 
 /**
- * Created by marco on 7/18/13.
+ * Reverse implementation of eu.nerdz.api.messages.Messenger.
  */
 public class ReverseMessenger extends ReverseApplication implements Messenger {
 
+    //The only ConversationHandler of the instance.
     private ConversationHandler conversationHandler;
 
+    /**
+     * Creates a ReverseMessenger, initializing the underlining ReverseApplication.
+     * @param user
+     * @param password
+     * @throws IOException
+     * @throws HttpException
+     * @throws LoginException
+     */
     public ReverseMessenger(String user, String password) throws IOException, HttpException, LoginException {
         super(user, password);
+
+        //The conversationHandler instance is created. This is an inner class because it needs access to post/get methods, that are protected.
         this.conversationHandler = new ConversationHandler() {
 
             @Override

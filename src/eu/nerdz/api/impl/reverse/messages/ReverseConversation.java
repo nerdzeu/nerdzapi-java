@@ -17,57 +17,46 @@
     (C) 2013 Marco Cilloni <marco.cilloni@yahoo.com>
 */
 
-package eu.nerdz.api.impl.reverse;
+package eu.nerdz.api.impl.reverse.messages;
 
 import java.util.Date;
 
-import eu.nerdz.api.Message;
+import eu.nerdz.api.messages.Conversation;
 
 /**
- * Created by marco on 7/18/13.
+ * Created by marco on 7/20/13.
  */
-class ReverseMessage implements Message {
+class ReverseConversation implements Conversation {
 
-    private String senderName, content;
-    private int senderID;
-    private Date date;
+    private final String other;
+    private int userID;
+    private Date lastDate;
 
-    public ReverseMessage(String senderName, String content, int senderID, Date date) {
+    ReverseConversation(String userName, int userID, Date lastDate) {
+        this.other = userName;
+        this.userID = userID;
+        this.lastDate = lastDate;
+    }
 
-        this.senderName = senderName;
-        this.content = content;
-        this.senderID = senderID;
-        this.date = date;
+    @Override
+    public int getOtherID() {
+
+        return this.userID;
 
     }
 
     @Override
-    public String getSenderName() {
-        return this.senderName;
+    public String getOtherName() {
+        return this.other;
     }
 
     @Override
-    public int getSenderID() {
-        return this.senderID;
-    }
-
-    @Override
-    public boolean read() {
-        return false;
-    }
-
-    @Override
-    public String getContent() {
-        return this.content;
-    }
-
-    @Override
-    public Date getDate() {
-        return this.date;
+    public Date getLastDate() {
+        return this.lastDate;
     }
 
     @Override
     public String toString() {
-        return this.senderName + " (" + this.date + "): " + this.content;
+        return this.other + " (" + this.userID + ") , last contact on " + this.lastDate;
     }
 }

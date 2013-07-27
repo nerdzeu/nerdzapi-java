@@ -44,16 +44,34 @@ import java.util.Map;
 import eu.nerdz.api.Application;
 import eu.nerdz.api.HttpException;
 
+/**
+ *
+ */
+public abstract class  ReverseApplication implements Application {
 
-class ReverseApplication implements Application {
-
+    /**
+     * Represents the domain in which all post/get requests are made.
+     */
     protected static String NERDZ_DOMAIN_NAME = "http://beta.nerdz.eu";
 
     private String userName;
     private String password;
+
+    /**
+     * This is the DefaultHttpClient main instance. It will contain login informations, and all requests will pass through it.
+     */
     protected DefaultHttpClient httpClient;
+
+    /**
+     * the token, required for login.
+     */
     protected String token;
 
+    /**the constructor takes care of logging into NERDZ. The cookies gathered through the login process remains in httpClient, allowing for logged in requsts.
+     *
+     * @param user username, unescaped
+     * @param password password
+     */
     protected ReverseApplication(String user, String password) throws IOException, HttpException, LoginException {
 
         this.userName = user;
@@ -63,6 +81,8 @@ class ReverseApplication implements Application {
         //fetch token.
         {
             String body = this.get();
+
+            // token is hidden in an input tag. It's needed just for login/logout
             int start = body.indexOf("<input type=\"hidden\" value=\"") + 28;
             this.token = body.substring(start, start + 32);
         }
@@ -73,18 +93,28 @@ class ReverseApplication implements Application {
         form.put("password", password);
         form.put("tok", this.token);
 
+        // login
         String responseBody = this.post("/pages/profile/login.json.php", form, null, true);
 
+        //check for a wrong login.
         if( responseBody.contains("error") ) {
             throw new LoginException();
         }
     }
 
+    /**
+     * Returns the username.
+     * @return a java.lang.String representing the username.
+     */
     @Override
     public String getUsername() {
         return this.userName;
     }
 
+    /**
+     * Returns the NERDZ ID.
+     * @return an int representing the user ID
+     */
     @Override
     public int getUserID() {
 
@@ -95,15 +125,41 @@ class ReverseApplication implements Application {
         return -1;
     }
 
+    /**
+     * Executes a GET request on NERDZ.
+     * This version returns the content of NERDZ_DOMAIN_NAME.
+     *
+     * @return a String containing the contents of NERDZ_DOMAIN_NAME.
+     * @throws IOException
+     * @throws HttpException
+     */
     protected String get() throws IOException, HttpException {
         return this.get("");
     }
 
+    /**
+     * Executes a GET request on NERDZ.
+     * The given URL is automatically prepended with NERDZ_DOMAIN_NAME, so it should be something like /pages/pm/inbox.html.php.
+     *
+     * @param url an address beginning with /
+     * @return the content of NERDZ_DOMAIN_NAME + url.
+     * @throws IOException
+     * @throws HttpException
+     */
     protected String get(String url) throws IOException, HttpException {
         return this.get(url, false);
     }
 
-
+    /**
+     * Executes a GET request on NERDZ.
+     * The given URL is automatically prepended with NERDZ_DOMAIN_NAME, so it should be something like /pages/pm/inbox.html.php.
+     *
+     * @param url an address beginning with /
+     * @param consume if true, the entity associated with the response is consumed
+     * @return the content of NERDZ_DOMAIN_NAME + url
+     * @throws IOException
+     * @throws HttpException
+     */
     protected String get(String url, boolean consume) throws IOException, HttpException {
 
         HttpGet get = new HttpGet(ReverseApplication.NERDZ_DOMAIN_NAME + url);
@@ -127,15 +183,50 @@ class ReverseApplication implements Application {
         return body.trim();
     }
 
+    /**
+     * Issues a POST request to NERDZ.
+     * The given URL is automatically prepended with NERDZ_DOMAIN_NAME, so it should be something like /pages/pm/inbox.html.php.
+     * form is urlencoded by post, so it should not be encoded before.
+     *
+     * @param url an address beginning with /
+     * @param form a Map<String,String> that represents a form
+     * @return a String containing the response body
+     * @throws IOException
+     * @throws HttpException
+     */
     protected String post(String url, Map<String,String> form) throws IOException, HttpException {
         return this.post(url, form, null, false);
     }
 
+    /**
+     * Issues a POST request to NERDZ.
+     * The given URL is automatically prepended with NERDZ_DOMAIN_NAME, so it should be something like /pages/pm/inbox.html.php.
+     * form is urlencoded by post, so it should not be encoded before.
+     *
+     * @param url an address beginning with /
+     * @param form a Map<String,String> that represents a form
+     * @param referer if not null, this string is used as the referer in the response.
+     * @return a String containing the response body
+     * @throws IOException
+     * @throws HttpException
+     */
     protected String post(String url, Map<String,String> form, String referer) throws IOException, HttpException {
         return this.post(url, form, referer, false);
     }
 
-
+    /**
+     * Issues a POST request to NERDZ.
+     * The given URL is automatically prepended with NERDZ_DOMAIN_NAME, so it should be something like /pages/pm/inbox.html.php.
+     * form is urlencoded by post, so it should not be encoded before.
+     *
+     * @param url an address beginning with /
+     * @param form a Map<String,String> that represents a form
+     * @param referer if not null, this string is used as the referer in the response.
+     * @param consume if true, the entity associated with the response is consumed
+     * @return a String containing the response body
+     * @throws IOException
+     * @throws HttpException
+     */
     protected String post(String url, Map<String,String> form, String referer, boolean consume) throws IOException, HttpException {
 
         HttpPost post = new HttpPost(ReverseApplication.NERDZ_DOMAIN_NAME + url);

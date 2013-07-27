@@ -1,5 +1,8 @@
-import eu.nerdz.api.*;
-import eu.nerdz.api.impl.reverse.ReverseMessenger;
+import eu.nerdz.api.impl.reverse.messages.ReverseMessenger;
+import eu.nerdz.api.messages.Conversation;
+import eu.nerdz.api.messages.ConversationHandler;
+import eu.nerdz.api.messages.Message;
+import eu.nerdz.api.messages.Messenger;
 
 public class ReadConversations {
 

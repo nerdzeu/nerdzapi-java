@@ -20,7 +20,7 @@
 package eu.nerdz.api;
 
 /**
- * Created by marco on 7/17/13.
+ * Represents the reception of a bad HTTP code.
  */
 
 public class HttpException extends Exception {

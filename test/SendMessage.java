@@ -1,5 +1,4 @@
-import eu.nerdz.api.*;
-import eu.nerdz.api.impl.reverse.ReverseMessenger;
+import eu.nerdz.api.impl.reverse.messages.ReverseMessenger;
 
 public class SendMessage {
 

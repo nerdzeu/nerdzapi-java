@@ -17,10 +17,16 @@
     (C) 2013 Marco Cilloni <marco.cilloni@yahoo.com>
 */
 
-package eu.nerdz.api;
+package eu.nerdz.api.messages;
 
-public interface Message extends ContentEntry<String> {
-	public String getSenderName();
-	public int getSenderID();
-	public boolean read(); //stub
+
+import java.util.Date;
+
+/**
+ * Created by marco on 7/18/13.
+ */
+public interface Conversation {
+    public int getOtherID();
+    public String getOtherName();
+    public Date getLastDate();
 }
