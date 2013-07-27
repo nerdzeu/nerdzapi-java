@@ -1,14 +1,19 @@
-package eu.nerdz.api;
-
+import eu.nerdz.api.*;
 import eu.nerdz.api.impl.reverse.ReverseMessenger;
 
-public class NewTrial {
+public class ReadConversations {
 
     public static void main(String[] args) {
 
         try {
 
-            Messenger messenger = new ReverseMessenger("AlexZ", "");
+			if (args.length != 2) {
+				System.err.println("usage: <classinvocation> username password");
+				return;
+			}
+				
+
+            Messenger messenger = new ReverseMessenger(args[0], args[1]);
             ConversationHandler conversationHandler = messenger.getConversationHandler();
 
             for (Conversation conversation : conversationHandler.getConversations()) {
@@ -19,8 +24,6 @@ public class NewTrial {
                 System.out.println();
 
             }
-
-            messenger.sendMessage("Gesù", "test1");
 
         } catch (Exception e) {
             e.printStackTrace();

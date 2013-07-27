@@ -45,10 +45,6 @@ import eu.nerdz.api.Application;
 import eu.nerdz.api.HttpException;
 
 
-/**
- * Created by marco on 7/16/13.
- */
-
 class ReverseApplication implements Application {
 
     protected static String NERDZ_DOMAIN_NAME = "http://beta.nerdz.eu";
@@ -78,7 +74,8 @@ class ReverseApplication implements Application {
         form.put("tok", this.token);
 
         String responseBody = this.post("/pages/profile/login.json.php", form, null, true);
-        if( responseBody.contains("error")){
+
+        if( responseBody.contains("error") ) {
             throw new LoginException();
         }
     }
