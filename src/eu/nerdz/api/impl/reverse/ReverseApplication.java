@@ -31,7 +31,6 @@ import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
@@ -43,7 +42,6 @@ import java.util.Map;
 
 import eu.nerdz.api.Application;
 import eu.nerdz.api.HttpException;
-import eu.nerdz.api.util.Pair;
 
 
 /**
@@ -160,10 +158,12 @@ class ReverseApplication implements Application {
 
         String body = responseHandler.handleResponse(response);
 
-        if (consume) {
+        if (consume && !body.contains("error")) {
             HttpEntity entity = response.getEntity();
             if (entity != null)
                 EntityUtils.consume(entity);
+        } else{
+            throw new HttpException(code, body);
         }
 
 
