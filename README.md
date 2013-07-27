@@ -15,9 +15,11 @@ But remember:
 2) You must respect some style directives:
   a. Opening braces MUST be on the same line as the opening of a block, i.e. "int method() {" or "public class ClassName {".
   b. Closing braces should be on on the same vertical line of the beginning statement of the block, i.e.
+      ```java
       public class ClassName {
         <classbody>
       }
+      ```
       
   c. Every internal field in a method MUST BE PREFIXED with this, super or NameOfTheClass.this when accessed, for sake of readability.
   
