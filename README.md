@@ -19,6 +19,6 @@ But remember:
         <classbody>
       }
       
-  c. Every internal field in a method MUST BE PREFIXED with this, super or NameOfTheClass.this, for sake of readability.
+  c. Every internal field in a method MUST BE PREFIXED with this, super or NameOfTheClass.this when accessed, for sake of readability.
   
   
