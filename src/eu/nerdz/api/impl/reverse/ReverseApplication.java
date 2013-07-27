@@ -76,7 +76,10 @@ class ReverseApplication implements Application {
         form.put("password", password);
         form.put("tok", this.token);
 
-        this.post("/pages/profile/login.json.php", form, null, true);
+        String responseBody = this.post("/pages/profile/login.json.php", form, null, true);
+        if( responseBody.contains("error")){
+            throw new HttpException(401, responseBody);
+        }
     }
 
     @Override
@@ -158,12 +161,10 @@ class ReverseApplication implements Application {
 
         String body = responseHandler.handleResponse(response);
 
-        if (consume && !body.contains("error")) {
+        if (consume) {
             HttpEntity entity = response.getEntity();
             if (entity != null)
                 EntityUtils.consume(entity);
-        } else{
-            throw new HttpException(code, body);
         }
 
 

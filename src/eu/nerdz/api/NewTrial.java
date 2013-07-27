@@ -1,12 +1,6 @@
 package eu.nerdz.api;
 
-/**
- * User: Alessandro Suglia - alessandro.suglia@gmail.com
- * Date: 27/07/13
- * Time: 9.58
- */
 import eu.nerdz.api.impl.reverse.ReverseMessenger;
-
 
 public class NewTrial {
 
