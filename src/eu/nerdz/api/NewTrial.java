@@ -8,7 +8,7 @@ public class NewTrial {
 
         try {
 
-            Messenger messenger = new ReverseMessenger("", "22.alex");
+            Messenger messenger = new ReverseMessenger("AlexZ", "");
             ConversationHandler conversationHandler = messenger.getConversationHandler();
 
             for (Conversation conversation : conversationHandler.getConversations()) {
