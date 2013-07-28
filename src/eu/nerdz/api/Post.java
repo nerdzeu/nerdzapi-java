@@ -19,6 +19,10 @@
 
 package eu.nerdz.api;
 
+
+/**
+ * stub
+ */
 public interface Post extends ContentEntry {
 	public BoardType getType();
 	public int getOwnerId();

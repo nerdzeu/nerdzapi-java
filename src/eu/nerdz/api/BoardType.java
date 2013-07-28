@@ -19,6 +19,10 @@
 
 package eu.nerdz.api;
 
+
+/**
+ * stub
+ */
 public enum BoardType {
 	HOME,
 	USER,

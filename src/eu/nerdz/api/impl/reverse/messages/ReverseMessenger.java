@@ -63,6 +63,7 @@ public class ReverseMessenger extends ReverseApplication implements Messenger {
         //The conversationHandler instance is created. This is an inner class because it needs access to post/get methods, that are protected.
         this.conversationHandler = new ConversationHandler() {
 
+
             @Override
             public List<Conversation> getConversations() throws IOException, HttpException, ContentException {
                 List<Conversation> conversations = null;

@@ -21,7 +21,22 @@ package eu.nerdz.api;
 
 import java.util.Date;
 
+
+/**
+ * A ContentEntry represents an object which have content and can be chronologically determined.
+ * @param <E>
+ */
 public interface ContentEntry<E> {
+
+    /**
+     * Returns the content associated with this entry.
+     * @return the content associated with this entry
+     */
 	public E getContent();
+
+    /**
+     * Return a precise instant associated with this content.
+     * @return a date
+     */
 	public Date getDate();
 }

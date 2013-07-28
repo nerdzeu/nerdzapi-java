@@ -45,7 +45,7 @@ import eu.nerdz.api.Application;
 import eu.nerdz.api.HttpException;
 
 /**
- *
+ * A Reverse abstract implementation of an Application.
  */
 public abstract class  ReverseApplication implements Application {
 

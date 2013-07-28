@@ -19,6 +19,9 @@
 
 package eu.nerdz.api;
 
+/**
+ * stub
+ */
 public interface Notification extends ContentEntry {
 	public NotificationType getNotificationType();
 	public boolean unread();

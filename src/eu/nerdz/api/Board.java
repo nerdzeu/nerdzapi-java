@@ -22,6 +22,10 @@ package eu.nerdz.api;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * stub.
+ */
+
 public interface Board extends Application {
 
     public List<Post> getPosts(int limit, int id, int boardId, BoardType board, Date start);
