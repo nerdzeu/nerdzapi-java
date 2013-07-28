@@ -21,6 +21,9 @@ package eu.nerdz.api.messages;
 
 import eu.nerdz.api.ContentEntry;
 
+/**
+ * This ContentEntry<String> represents a Message.
+ */
 public interface Message extends ContentEntry<String> {
 	public String getSenderName();
 	public int getSenderID();

@@ -65,8 +65,8 @@ public interface ConversationHandler {
     public List<Message> getMessagesFromConversation(Conversation conversation, int start, int howMany) throws IOException, HttpException, ContentException;
 
     /**
-     * Deletes the given conversation. A consecutive call to getConversations() will not contain it anymore.
-     * @param conversation
+     * Deletes the given conversation. Every consecutive call to getConversations() will have no trace of this conversation.
+     * @param conversation a conversation previously created by getConversations()
      * @throws IOException
      * @throws HttpException
      * @throws BadStatusException

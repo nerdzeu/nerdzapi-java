@@ -137,6 +137,12 @@ public class ReverseMessenger extends ReverseApplication implements Messenger {
 
             }
 
+            /**
+             * This method parses the timestamp from a raw message, and returns it as a Date.
+             * @param messageString the raw message string parsed by splitMessage
+             * @return A Date representing the moment this message has been sent.
+             * @throws ContentException
+             */
             private Date parseDate(String messageString) throws ContentException {
 
                 int timestampPosition = messageString.indexOf("data-timestamp=\"");
@@ -149,6 +155,12 @@ public class ReverseMessenger extends ReverseApplication implements Messenger {
 
             }
 
+            /**
+             * This method parses the sender's ID from a raw message, and returns it as an int.
+             * @param messageString the raw message string parsed by splitMessage
+             * @return An int containing the sender's ID.
+             * @throws ContentException
+             */
             private int parseSenderID(String messageString) throws ContentException {
 
                 int fromIDPosition = messageString.indexOf("data-fromid=\"");
@@ -161,6 +173,12 @@ public class ReverseMessenger extends ReverseApplication implements Messenger {
 
             }
 
+            /**
+             * This method parses the sender's username from a raw message.
+             * @param messageString the raw message string parsed by splitMessage
+             * @return A String containing the sender's username
+             * @throws ContentException
+             */
             private String parseSender(String messageString) throws ContentException {
 
                 int closeLinkPosition = messageString.lastIndexOf("</a>", messageString.lastIndexOf("<time"));
@@ -175,6 +193,12 @@ public class ReverseMessenger extends ReverseApplication implements Messenger {
 
             }
 
+            /**
+             * This method parses the message from a raw message string.
+             * @param messageString the raw message string parsed by splitMessage
+             * @return A message
+             * @throws ContentException
+             */
             private String parseMessage(String messageString) throws ContentException {
 
                 int msgStart =  messageString.lastIndexOf("1pt solid #FFF\">") + 16;
@@ -185,12 +209,22 @@ public class ReverseMessenger extends ReverseApplication implements Messenger {
 
             }
 
+            /**
+             * Parses and removes all HTML tags in a message.
+             * @param msg A message parsed by parseMessage
+             * @return The parsed message
+             */
             private String removeTags(String msg) {
 
                 return this.linkParse(this.ytParse(this.removeDivs(msg.replaceAll("<br />", "\n").replaceAll("<hr style=\"clear:both\" />", "\n"))));
 
             }
 
+            /**
+             * Finds links and replaces them with its URL.
+             * @param msg A message parsed by parseMessage
+             * @return The parsed message
+             */
             private String linkParse(String msg) {
 
                 int linkPos, hrefPos, hrefEnd, linkEnd;
@@ -204,6 +238,11 @@ public class ReverseMessenger extends ReverseApplication implements Messenger {
 
             }
 
+            /**
+             * Removes divs.
+             * @param msg A message parsed by parseMessage
+             * @return The parsed message
+             */
             private String removeDivs(String msg) {
 
                 int divPos, divEnd;
@@ -215,6 +254,11 @@ public class ReverseMessenger extends ReverseApplication implements Messenger {
 
             }
 
+            /**
+             * Finds YouTube videos and replaces them with the video's url.
+             * @param msg A message parsed by parseMessage
+             * @return The parsed message
+             */
             private String ytParse(String msg) {
 
                 int iframePos, srcPos, srcEnd, iframeEnd;
@@ -228,10 +272,21 @@ public class ReverseMessenger extends ReverseApplication implements Messenger {
 
             }
 
+            /**
+             * Fixes the embedded YouTube link to a regular youtu.be one.
+             * @param link
+             * @return The parsed message
+             */
             private String fixYTLink(String link) {
                 return "http://youtu.be/" + link.substring(link.lastIndexOf('/') + 1, link.lastIndexOf('?'));
             }
 
+            /**
+             * Splits messages from a response into raw strings.
+             * @param list a raw list of messages
+             * @return a list containing raw message strings.
+             * @throws ContentException
+             */
             private List<String> splitMessages(String list) throws ContentException {
                 int lastCloseDivs, lastMessagePosition = 0;
                 List<String> messages = new LinkedList<String>();
@@ -242,6 +297,11 @@ public class ReverseMessenger extends ReverseApplication implements Messenger {
                 return messages;
             }
 
+            /**
+             * Parses Conversations table, returning raw conversation strings as a list.
+             * @param table a string containing a raw conversation HTML table.
+             * @return a list of raw conversation strings.
+             */
             private List<String> parseTableRows(String table) {
                 List<String> conversations = new ArrayList<String>(20);
 
@@ -263,6 +323,12 @@ public class ReverseMessenger extends ReverseApplication implements Messenger {
                 return conversations;
             }
 
+            /**
+             * Parses a raw conversation string,  returning a Conversation.
+             * @param row a raw conversation string
+             * @return A Conversation containing data parsed from row.
+             * @throws ContentException
+             */
             private Conversation parseConversationRow(String row) throws ContentException {
 
                 int otherNamePosition = row.indexOf("<a href=");

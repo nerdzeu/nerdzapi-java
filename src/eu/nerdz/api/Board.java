@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * stub.
+ * stub
  */
 
 public interface Board extends Application {
