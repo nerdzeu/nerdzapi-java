@@ -34,7 +34,8 @@ import java.util.List;
 
 import eu.nerdz.api.BadStatusException;
 import eu.nerdz.api.ContentException;
-import eu.nerdz.api.impl.reverse.ReverseApplication;
+import eu.nerdz.api.impl.reverse.AbstractReverseApplication;
+import eu.nerdz.api.impl.reverse.ReverseLoginData;
 import eu.nerdz.api.messages.Conversation;
 import eu.nerdz.api.messages.ConversationHandler;
 import eu.nerdz.api.HttpException;
@@ -44,24 +45,38 @@ import eu.nerdz.api.messages.Messenger;
 /**
  * Reverse implementation of eu.nerdz.api.messages.Messenger.
  */
-public class ReverseMessenger extends ReverseApplication implements Messenger {
+public class ReverseMessenger extends AbstractReverseApplication implements Messenger {
 
     //The only ConversationHandler of the instance.
     private ConversationHandler conversationHandler;
 
     /**
-     * Creates a ReverseMessenger, initializing the underlining ReverseApplication.
-     * @param user
-     * @param password
+     * Creates a ReverseMessenger, initializing the underlining AbstractReverseApplication.
+     * @param user the username
+     * @param password the password
      * @throws IOException
      * @throws HttpException
      * @throws LoginException
      */
     public ReverseMessenger(String user, String password) throws IOException, HttpException, LoginException {
         super(user, password);
+        this.conversationHandler = this.createHandler();
+    }
+
+    /**
+     * Creates a ReverseMessenger from existing login data, initializing the underlining AbstractReverseApplication.
+     * @param loginData existing login data
+     */
+    public ReverseMessenger(ReverseLoginData loginData) {
+        super(loginData);
+        this.conversationHandler = this.createHandler();
+    }
+
+    //Initializing the handler
+    private ConversationHandler createHandler() {
 
         //The conversationHandler instance is created. This is an inner class because it needs access to post/get methods, that are protected.
-        this.conversationHandler = new ConversationHandler() {
+        return new ConversationHandler() {
 
 
             @Override
@@ -88,7 +103,7 @@ public class ReverseMessenger extends ReverseApplication implements Messenger {
 
             @Override
             public List<Message> getMessagesFromConversation(Conversation conversation, int start, int howMany) throws IOException, HttpException, ContentException {
-                List<Message> messages = null;
+                List<Message> messages;
                 HashMap<String,String> form = new HashMap<String, String>(4);
                 form.put("from", String.valueOf(conversation.getOtherID()));
                 form.put("to", String.valueOf(ReverseMessenger.this.getUserID()));
@@ -127,7 +142,7 @@ public class ReverseMessenger extends ReverseApplication implements Messenger {
                 form.put("to", String.valueOf(ReverseMessenger.this.getUserID()));
 
                 try {
-                    JSONObject response = new JSONObject(ReverseMessenger.this.post("/pages/pm/delete.json.php", form, ReverseApplication.NERDZ_DOMAIN_NAME + "/pm.php"));
+                    JSONObject response = new JSONObject(ReverseMessenger.this.post("/pages/pm/delete.json.php", form, AbstractReverseApplication.NERDZ_DOMAIN_NAME + "/pm.php"));
 
                     if ( !( response.getString("status").equals("ok") && response.getString("message").equals("OK") ) )
                         throw new BadStatusException("wrong status couple (" + response.getString("status") + ", " + response.getString("message") + "), conversation not deleted" );
@@ -274,7 +289,7 @@ public class ReverseMessenger extends ReverseApplication implements Messenger {
 
             /**
              * Fixes the embedded YouTube link to a regular youtu.be one.
-             * @param link
+             * @param link the raw link
              * @return The parsed message
              */
             private String fixYTLink(String link) {
@@ -376,7 +391,7 @@ public class ReverseMessenger extends ReverseApplication implements Messenger {
         form.put("message", message);
 
         try {
-            JSONObject response = new JSONObject(this.post("/pages/pm/send.json.php", form, ReverseApplication.NERDZ_DOMAIN_NAME + "/pm.php"));
+            JSONObject response = new JSONObject(this.post("/pages/pm/send.json.php", form, AbstractReverseApplication.NERDZ_DOMAIN_NAME + "/pm.php"));
 
             if ( !( response.getString("status").equals("ok") && response.getString("message").equals("OK") ) )
                 throw new BadStatusException("wrong status couple (" + response.getString("status") + ", " + response.getString("message") + "), message not sent" );

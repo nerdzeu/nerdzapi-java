@@ -1,4 +1,4 @@
-<project name="NerdzApi" default="compile-tests">
+<project name="NerdzApi" default="tests">
 
 	<property name="ant.build.javac.target" value="1.6"/>
 	<property name="ant.build.javac.source" value="1.6"/>
@@ -40,9 +40,24 @@
         <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}"/>
     </target>
 
-	<target name="compile-tests" depends="jar">
+	<target name="tests" depends="jar">
 		<mkdir dir="${tests.dir}"/>
 		<javac srcdir="${testsrc.dir}" destdir="${tests.dir}" classpathref="tests-classpath" includeantruntime="false"/>
+	</target>
+
+    <target name="compile-debug">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false" debug="true"/>
+    </target>
+
+    <target name="jar-debug" depends="compile-debug">
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}"/>
+    </target>
+
+	<target name="tests-debug" depends="jar-debug">
+		<mkdir dir="${tests.dir}"/>
+		<javac srcdir="${testsrc.dir}" destdir="${tests.dir}" classpathref="tests-classpath" includeantruntime="false" debug="true"/>
 	</target>
 
 	<target name="docs">
@@ -50,6 +65,6 @@
 		<javadoc packagenames="eu.nerdz.api.*" sourcepath="${src.dir}" destdir="${docs.dir}" windowtitle="Nerdz API" classpathref="classpath"/>
 	</target>
 
-	<target name="all" depends="compile-tests,docs" />
+	<target name="all" depends="tests,docs" />
 
 </project>
