@@ -55,7 +55,7 @@
         <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}"/>
     </target>
 
-	<target name="tests-debug" depends="jar-debug">
+	<target name="debug" depends="jar-debug">
 		<mkdir dir="${tests.dir}"/>
 		<javac srcdir="${testsrc.dir}" destdir="${tests.dir}" classpathref="tests-classpath" includeantruntime="false" debug="true"/>
 	</target>

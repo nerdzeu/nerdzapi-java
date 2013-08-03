@@ -67,7 +67,7 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
      * Creates a ReverseMessenger from existing login data, initializing the underlining AbstractReverseApplication.
      * @param loginData existing login data
      */
-    public ReverseMessenger(ReverseLoginData loginData) {
+    public ReverseMessenger(ReverseLoginData loginData) throws LoginException, IOException, HttpException {
         super(loginData);
         this.conversationHandler = this.createHandler();
     }

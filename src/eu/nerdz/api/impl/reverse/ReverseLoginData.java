@@ -4,6 +4,8 @@ import org.apache.http.client.CookieStore;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.cookie.BasicClientCookie;
 
+import java.util.Date;
+
 import eu.nerdz.api.ContentException;
 
 /**
@@ -12,20 +14,17 @@ import eu.nerdz.api.ContentException;
 public class ReverseLoginData {
 
     private String userName;
-    private String password;
     private Cookie nerdzU;
     private Cookie nerdzId;
 
     /**
      * Creates an instance, an fills it with preprocessed loginData.
      * @param userName a username
-     * @param password a password
      * @param cookieStore an HttpClient CookieStore, initialized with a NERDZ login.
      * @throws ContentException
      */
-    ReverseLoginData(String userName, String password, CookieStore cookieStore) throws ContentException {
+    ReverseLoginData(String userName, CookieStore cookieStore) throws ContentException {
         this.userName = userName;
-        this.password = password;
         for (Cookie cookie : cookieStore.getCookies()) {
             if (cookie.getName().equals("nerdz_u")) {
                 BasicClientCookie nerdzU = new BasicClientCookie(cookie.getName(),cookie.getValue());
@@ -48,12 +47,30 @@ public class ReverseLoginData {
             throw new ContentException("malformed cookie store");
     }
 
-    public String getUserName() {
-        return userName;
+    /**
+     * Creates an instance using external data.
+     * @param userName a username
+     * @param nerdzId an id as a String
+     * @param nerdzU a nerdz_u token
+     */
+    public ReverseLoginData(String userName, String nerdzId, String nerdzU) {
+
+        this.userName = userName;
+        BasicClientCookie nerdzUCookie = new BasicClientCookie("nerdz_u",nerdzU);
+        nerdzUCookie.setExpiryDate(new Date(new Date().getTime() + 1000*365*24*3600*1000L));
+        nerdzUCookie.setPath("/");
+        nerdzUCookie.setDomain('.' + AbstractReverseApplication.SUBDOMAIN_FULL);
+        this.nerdzU = nerdzUCookie;
+        BasicClientCookie nerdzIdCookie = new BasicClientCookie("nerdz_id",nerdzId);
+        nerdzIdCookie.setExpiryDate(new Date(new Date().getTime() + 1000*365*24*3600*1000L));
+        nerdzIdCookie.setPath("/");
+        nerdzIdCookie.setDomain('.' + AbstractReverseApplication.SUBDOMAIN_FULL);
+        this.nerdzId = nerdzIdCookie;
+
     }
 
-    String getPassword() {
-        return this.password;
+    public String getUserName() {
+        return userName;
     }
 
     public Cookie getNerdzU() {

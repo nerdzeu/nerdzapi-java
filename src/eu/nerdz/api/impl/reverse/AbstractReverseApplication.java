@@ -51,10 +51,13 @@ public abstract class AbstractReverseApplication implements Application {
     /**
      * Represents the domain in which all post/get requests are made.
      */
-    protected static String NERDZ_DOMAIN_NAME = "http://beta.nerdz.eu";
+
+    public final static String PROTOCOL = "http";
+    public final static String SUBDOMAIN = "beta";
+    public final static String SUBDOMAIN_FULL = AbstractReverseApplication.SUBDOMAIN + ".nerdz.eu";
+    public final static String NERDZ_DOMAIN_NAME = AbstractReverseApplication.PROTOCOL + "://" + AbstractReverseApplication.SUBDOMAIN_FULL;
 
     private String userName;
-    private String password;
 
     /**
      * This is the DefaultHttpClient main instance. It will contain login informations, and all requests will pass through it.
@@ -73,7 +76,6 @@ public abstract class AbstractReverseApplication implements Application {
     protected AbstractReverseApplication(String user, String password) throws IOException, HttpException, LoginException {
 
         this.userName = user;
-        this.password = password;
         this.httpClient = new DefaultHttpClient();
 
         String token;
@@ -106,13 +108,18 @@ public abstract class AbstractReverseApplication implements Application {
      * if we already have loginData, a new login is not need. This constructor creates an HttpClient with the already existing cookies.
      * @param loginData login data, stored in a ReverseLoginData class.
      */
-    protected AbstractReverseApplication(ReverseLoginData loginData) {
+    protected AbstractReverseApplication(ReverseLoginData loginData) throws IOException, HttpException, LoginException {
 
         this.userName = loginData.getUserName();
-        this.password = loginData.getPassword();
         this.httpClient = new DefaultHttpClient();
         this.httpClient.getCookieStore().addCookie(loginData.getNerdzId());
         this.httpClient.getCookieStore().addCookie(loginData.getNerdzU());
+
+        //Check if token is good.
+
+        if (this.get("/pages/pm/notify.json.php").contains("error")) {
+            throw new LoginException("invalid token");
+        }
 
     }
 
@@ -140,7 +147,7 @@ public abstract class AbstractReverseApplication implements Application {
     }
 
     public ReverseLoginData getLoginData() throws ContentException {
-        return new ReverseLoginData(this.userName, this.password, this.httpClient.getCookieStore());
+        return new ReverseLoginData(this.userName, this.httpClient.getCookieStore());
     }
 
     /**
