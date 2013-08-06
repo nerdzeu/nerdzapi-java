@@ -22,7 +22,7 @@ package eu.nerdz.api;
 /**
  * Raised when the application encounters wrong responses or content.
  */
-public class ContentException extends Exception {
+public class ContentException extends RuntimeException {
     public ContentException(String msg) {
         super(msg);
     }
