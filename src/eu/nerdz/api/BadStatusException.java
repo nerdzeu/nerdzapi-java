@@ -22,6 +22,7 @@ package eu.nerdz.api;
 /**
  * Indicates that some request involving a JSON response has returned a JSONObject containing a status different than "ok".
  */
+@SuppressWarnings("serial")
 public class BadStatusException extends Exception {
 
     public BadStatusException(String msg) {

@@ -22,6 +22,7 @@ package eu.nerdz.api;
 /**
  * Represents a wrong login.
  */
+@SuppressWarnings("serial")
 public class LoginException extends Exception {
 
     private static final String DEFAULT_MSG = "wrong combination of username and password during the login session";

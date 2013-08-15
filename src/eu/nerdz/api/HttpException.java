@@ -23,6 +23,7 @@ package eu.nerdz.api;
  * Represents the reception of a bad HTTP code.
  */
 
+@SuppressWarnings("serial")
 public class HttpException extends Exception {
     private int code;
 

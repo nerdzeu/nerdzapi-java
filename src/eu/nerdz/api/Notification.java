@@ -22,7 +22,7 @@ package eu.nerdz.api;
 /**
  * stub
  */
-public interface Notification extends ContentEntry {
+public interface Notification extends ContentEntry<String> {
 	public NotificationType getNotificationType();
 	public boolean unread();
 	

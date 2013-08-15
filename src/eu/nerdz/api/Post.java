@@ -23,7 +23,7 @@ package eu.nerdz.api;
 /**
  * stub
  */
-public interface Post extends ContentEntry {
+public interface Post extends ContentEntry<String> {
 	public BoardType getType();
 	public int getOwnerId();
 	public int getBoardId();

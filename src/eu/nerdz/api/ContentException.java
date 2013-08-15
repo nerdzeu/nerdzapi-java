@@ -22,6 +22,7 @@ package eu.nerdz.api;
 /**
  * Raised when the application encounters wrong responses or content.
  */
+@SuppressWarnings("serial")
 public class ContentException extends RuntimeException {
     public ContentException(String msg) {
         super(msg);

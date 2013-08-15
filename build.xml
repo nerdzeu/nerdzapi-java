@@ -65,6 +65,8 @@
 		<javadoc packagenames="eu.nerdz.api.*" sourcepath="${src.dir}" destdir="${docs.dir}" windowtitle="Nerdz API" classpathref="classpath"/>
 	</target>
 
+
+	<target name="rebuild" depends="clean,tests" />
 	<target name="all" depends="tests,docs" />
 
 </project>
