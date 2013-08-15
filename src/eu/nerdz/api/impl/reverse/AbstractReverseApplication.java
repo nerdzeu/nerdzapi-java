@@ -21,6 +21,7 @@ package eu.nerdz.api.impl.reverse;
 
 import eu.nerdz.api.ContentException;
 import eu.nerdz.api.LoginException;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -33,6 +34,7 @@ import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.CoreProtocolPNames;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -255,6 +257,8 @@ public abstract class AbstractReverseApplication implements Application {
     protected String post(String url, Map<String,String> form, String referer, boolean consume) throws IOException, HttpException {
 
         HttpPost post = new HttpPost(AbstractReverseApplication.NERDZ_DOMAIN_NAME + url);
+
+		post.getParams().setParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, Boolean.FALSE);
 
         if (referer != null)
             post.addHeader("Referer", referer);
