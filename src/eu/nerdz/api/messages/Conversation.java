@@ -20,13 +20,14 @@
 package eu.nerdz.api.messages;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * An interface that acknowledges that a conversation between two users exists.
  * Every operation on it must be made with a ConversationHandler and the object itself must be created by it.
  */
-public interface Conversation {
+public interface Conversation  extends Serializable {
 
     /**
      * Returns the numeric ID of the other person in the conversation (being the first the user that is using this application)

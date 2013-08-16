@@ -19,6 +19,8 @@
 
 package eu.nerdz.api;
 
+import java.io.Serializable;
+
 /**
  * Interface representing a basic NerdzApi application.
  * The Application contains login information, and takes care internally of validating access to the NERDZ website.
@@ -26,7 +28,7 @@ package eu.nerdz.api;
  * @author Marco Cilloni
  * @version 0.1
  */
-public interface Application {
+public interface Application extends Serializable {
 
     /**
      * Gets the username associated with this Application instance during the login process.

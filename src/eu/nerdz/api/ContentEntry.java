@@ -19,6 +19,7 @@
 
 package eu.nerdz.api;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -26,7 +27,7 @@ import java.util.Date;
  * A ContentEntry represents an object which have content and can be chronologically determined.
  * @param <E>
  */
-public interface ContentEntry<E> {
+public interface ContentEntry<E>  extends Serializable {
 
     /**
      * Returns the content associated with this entry.

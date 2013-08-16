@@ -28,6 +28,10 @@ import eu.nerdz.api.messages.Conversation;
  */
 class ReverseConversation implements Conversation {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6815925809655616400L;
     private final String other;
     private int userID;
     private Date lastDate;

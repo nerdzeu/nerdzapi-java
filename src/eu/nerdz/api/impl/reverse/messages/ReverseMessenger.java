@@ -47,6 +47,10 @@ import eu.nerdz.api.messages.Messenger;
  */
 public class ReverseMessenger extends AbstractReverseApplication implements Messenger {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1627978816568946110L;
     //The only ConversationHandler of the instance.
     private ConversationHandler conversationHandler;
 
@@ -78,6 +82,11 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
         //The conversationHandler instance is created. This is an inner class because it needs access to post/get methods, that are protected.
         return new ConversationHandler() {
 
+
+            /**
+             * 
+             */
+            private static final long serialVersionUID = -798135247830642378L;
 
             @Override
             public List<Conversation> getConversations() throws IOException, HttpException, ContentException {

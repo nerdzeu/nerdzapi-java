@@ -4,6 +4,7 @@ import org.apache.http.client.CookieStore;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.cookie.BasicClientCookie;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import eu.nerdz.api.ContentException;
@@ -11,8 +12,12 @@ import eu.nerdz.api.ContentException;
 /**
  * Represents reverse login data.
  */
-public class ReverseLoginData {
+public class ReverseLoginData  implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5768466751046728537L;
     private String userName;
     private Cookie nerdzU;
     private Cookie nerdzId;

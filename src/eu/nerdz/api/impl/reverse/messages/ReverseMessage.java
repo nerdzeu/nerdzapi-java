@@ -28,6 +28,10 @@ import eu.nerdz.api.messages.Message;
  */
 class ReverseMessage implements Message {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2838062641195124239L;
     private String senderName, content;
     private int senderID;
     private Date date;

@@ -20,6 +20,7 @@
 package eu.nerdz.api.messages;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 import eu.nerdz.api.BadStatusException;
@@ -31,7 +32,7 @@ import eu.nerdz.api.messages.Message;
 /**
  * This interface is meant to be created by a Messenger, and allows operations on Conversations, like fetching all existing conversations, getting messages from one and deleting them.
  */
-public interface ConversationHandler {
+public interface ConversationHandler  extends Serializable {
 
     /**
      * Returns a List containing the current conversations list.

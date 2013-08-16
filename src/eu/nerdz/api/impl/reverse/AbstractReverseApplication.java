@@ -51,6 +51,10 @@ import eu.nerdz.api.HttpException;
 public abstract class AbstractReverseApplication implements Application {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -5784101258239287408L;
+    /**
      * Represents the domain in which all post/get requests are made.
      */
 

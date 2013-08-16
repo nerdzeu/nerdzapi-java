@@ -19,6 +19,7 @@
 
 package eu.nerdz.api;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +27,7 @@ import java.util.List;
  * stub
  */
 
-public interface Board extends Application {
+public interface Board extends Application, Serializable {
 
     public List<Post> getPosts(int limit, int id, int boardId, BoardType board, Date start);
 
