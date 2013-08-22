@@ -111,10 +111,21 @@ public abstract class AbstractReverseApplication implements Application {
     }
 
     /**
-     * if we already have loginData, a new login is not need. This constructor creates an HttpClient with the already existing cookies.
+     * if we already have loginData, a new login is not need. This constructor creates an HttpClient with the already existing cookies, checking if loginData is valid.
      * @param loginData login data, stored in a ReverseLoginData class.
      */
-    protected AbstractReverseApplication(ReverseLoginData loginData) throws IOException, HttpException, LoginException {
+    protected AbstractReverseApplication(ReverseLoginData loginData) throws IOException, HttpException {
+
+        this(loginData, true);
+
+    }
+
+    /**
+     * if we already have loginData, a new login is not need. This constructor creates an HttpClient with the already existing cookies.
+     * Validity of loginData is checked if check is true.
+     * @param loginData login data, stored in a ReverseLoginData class.
+     */
+    protected AbstractReverseApplication(ReverseLoginData loginData, boolean check) throws IOException, HttpException {
 
         this.userName = loginData.getUserName();
         this.httpClient = new DefaultHttpClient();
@@ -123,7 +134,7 @@ public abstract class AbstractReverseApplication implements Application {
 
         //Check if token is good.
 
-        if (this.get("/pages/pm/notify.json.php").contains("error")) {
+        if (check && this.get("/pages/pm/notify.json.php").contains("error")) {
             throw new LoginException("invalid token");
         }
 

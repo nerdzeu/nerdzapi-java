@@ -54,6 +54,12 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
     //The only ConversationHandler of the instance.
     private ConversationHandler conversationHandler;
 
+    public static ReverseMessenger restore(ReverseLoginData loginData) throws IOException, HttpException {
+
+        return new ReverseMessenger(loginData, false);
+
+    }
+
     /**
      * Creates a ReverseMessenger, initializing the underlining AbstractReverseApplication.
      * @param user the username
@@ -62,7 +68,7 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
      * @throws HttpException
      * @throws LoginException
      */
-    public ReverseMessenger(String user, String password) throws IOException, HttpException, LoginException {
+    public ReverseMessenger(String user, String password) throws IOException, HttpException {
         super(user, password);
         this.conversationHandler = this.createHandler();
     }
@@ -71,8 +77,12 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
      * Creates a ReverseMessenger from existing login data, initializing the underlining AbstractReverseApplication.
      * @param loginData existing login data
      */
-    public ReverseMessenger(ReverseLoginData loginData) throws LoginException, IOException, HttpException {
-        super(loginData);
+    public ReverseMessenger(ReverseLoginData loginData) throws IOException, HttpException {
+        this(loginData, true);
+    }
+
+    private ReverseMessenger(ReverseLoginData loginData, boolean create) throws IOException, HttpException {
+        super(loginData, create);
         this.conversationHandler = this.createHandler();
     }
 
