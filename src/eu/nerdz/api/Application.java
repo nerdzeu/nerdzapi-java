@@ -19,6 +19,7 @@
 
 package eu.nerdz.api;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -32,14 +33,51 @@ public interface Application extends Serializable {
 
     /**
      * Gets the username associated with this Application instance during the login process.
+     *
      * @return a valid NERDZ username (without any kind of escaping)
      */
-    public String getUsername();
+    public abstract String getUsername();
 
     /**
      * Gets the current user ID.
+     *
      * @return a valid user ID, representing this Application user.
      */
-    public int getUserID();
+    public abstract int getUserID();
+
+    /**
+     * Returns a serializable class which can be stored and later used to recreate this application.
+     *
+     * @return a UserInfo implementation instance
+     */
+    public abstract UserInfo getUserInfo();
+
+    /**
+     * Returns features associated with this Application.
+     */
+
+    public abstract Features[] getSupportedFeatures();
+
+    public boolean checkValidity() throws IOException, HttpException;
+
+    /**
+     * Indicates the different features that an Application can have.
+     */
+    public static enum Features {
+
+        /**
+         * Indicates that the application can only do login and retrieve UserInfo.
+         */
+        NONE,
+        /**
+         * Indicates that the application is an instance of Messenger.
+         */
+        MESSENGER,
+
+        /**
+         * Indicates that the application is a FullBlownApp.
+         */
+        FULLBLOWNAPP
+    }
 
 }

@@ -25,19 +25,22 @@ import java.util.Date;
 
 /**
  * A ContentEntry represents an object which have content and can be chronologically determined.
+ *
  * @param <E>
  */
-public interface ContentEntry<E>  extends Serializable {
+public interface ContentEntry<E> extends Serializable {
 
     /**
      * Returns the content associated with this entry.
+     *
      * @return the content associated with this entry
      */
-	public E getContent();
+    public abstract E getmContent();
 
     /**
      * Return a precise instant associated with this content.
+     *
      * @return a date
      */
-	public Date getDate();
+    public abstract Date getmDate();
 }

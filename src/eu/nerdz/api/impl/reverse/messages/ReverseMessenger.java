@@ -20,7 +20,6 @@
 package eu.nerdz.api.impl.reverse.messages;
 
 
-import eu.nerdz.api.LoginException;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,11 +33,13 @@ import java.util.List;
 
 import eu.nerdz.api.BadStatusException;
 import eu.nerdz.api.ContentException;
+import eu.nerdz.api.HttpException;
+import eu.nerdz.api.LoginException;
+import eu.nerdz.api.UserInfo;
+import eu.nerdz.api.WrongUserInfoTypeException;
 import eu.nerdz.api.impl.reverse.AbstractReverseApplication;
-import eu.nerdz.api.impl.reverse.ReverseLoginData;
 import eu.nerdz.api.messages.Conversation;
 import eu.nerdz.api.messages.ConversationHandler;
-import eu.nerdz.api.HttpException;
 import eu.nerdz.api.messages.Message;
 import eu.nerdz.api.messages.Messenger;
 
@@ -48,21 +49,16 @@ import eu.nerdz.api.messages.Messenger;
 public class ReverseMessenger extends AbstractReverseApplication implements Messenger {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -1627978816568946110L;
     //The only ConversationHandler of the instance.
-    private ConversationHandler conversationHandler;
-
-    public static ReverseMessenger restore(ReverseLoginData loginData) throws IOException, HttpException {
-
-        return new ReverseMessenger(loginData, false);
-
-    }
+    private ConversationHandler mConversationHandler;
 
     /**
      * Creates a ReverseMessenger, initializing the underlining AbstractReverseApplication.
-     * @param user the username
+     *
+     * @param user     the username
      * @param password the password
      * @throws IOException
      * @throws HttpException
@@ -70,31 +66,29 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
      */
     public ReverseMessenger(String user, String password) throws IOException, HttpException {
         super(user, password);
-        this.conversationHandler = this.createHandler();
+        this.mConversationHandler = this.createHandler();
     }
 
     /**
      * Creates a ReverseMessenger from existing login data, initializing the underlining AbstractReverseApplication.
+     *
      * @param loginData existing login data
+     * @throws WrongUserInfoTypeException if loginData is not an instance of AbstractReverseApplication.ReverseUserInfo
      */
-    public ReverseMessenger(ReverseLoginData loginData) throws IOException, HttpException {
-        this(loginData, true);
-    }
-
-    private ReverseMessenger(ReverseLoginData loginData, boolean create) throws IOException, HttpException {
-        super(loginData, create);
-        this.conversationHandler = this.createHandler();
+    public ReverseMessenger(UserInfo loginData) throws WrongUserInfoTypeException {
+        super(loginData);
+        this.mConversationHandler = this.createHandler();
     }
 
     //Initializing the handler
     private ConversationHandler createHandler() {
 
-        //The conversationHandler instance is created. This is an inner class because it needs access to post/get methods, that are protected.
+        //The mConversationHandler instance is created. This is an inner class because it needs access to post/get methods, that are protected.
         return new ConversationHandler() {
 
 
             /**
-             * 
+             *
              */
             private static final long serialVersionUID = -798135247830642378L;
 
@@ -123,7 +117,7 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
             @Override
             public List<Message> getMessagesFromConversation(Conversation conversation, int start, int howMany) throws IOException, HttpException, ContentException {
                 List<Message> messages;
-                HashMap<String,String> form = new HashMap<String, String>(4);
+                HashMap<String, String> form = new HashMap<String, String>(4);
                 form.put("from", String.valueOf(conversation.getOtherID()));
                 form.put("to", String.valueOf(ReverseMessenger.this.getUserID()));
                 form.put("start", String.valueOf(start));
@@ -133,15 +127,16 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
 
                 int endOfList = body.indexOf("<form id=\"convfrm\"");
 
-                switch(endOfList) {
+                switch (endOfList) {
                     case 0:
                         return null;
                     case -1:
                         throw new ContentException("malformed response: " + body);
                     default: {
                         int headOfList = body.indexOf("<div style=\"margin-top: 3px\" id=\"pm");
-                        if (headOfList < 0)
+                        if (headOfList < 0) {
                             throw new ContentException("malformed response: " + body);
+                        }
 
                         messages = new LinkedList<Message>();
                         for (String messageString : this.splitMessages(body.substring(headOfList, endOfList)))
@@ -155,7 +150,7 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
             @Override
             public void deleteConversation(Conversation conversation) throws IOException, HttpException, BadStatusException, ContentException {
 
-                HashMap<String,String> form = new HashMap<String, String>(2);
+                HashMap<String, String> form = new HashMap<String, String>(2);
 
                 form.put("from", String.valueOf(conversation.getOtherID()));
                 form.put("to", String.valueOf(ReverseMessenger.this.getUserID()));
@@ -163,8 +158,9 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
                 try {
                     JSONObject response = new JSONObject(ReverseMessenger.this.post("/pages/pm/delete.json.php", form, AbstractReverseApplication.NERDZ_DOMAIN_NAME + "/pm.php"));
 
-                    if ( !( response.getString("status").equals("ok") && response.getString("message").equals("OK") ) )
-                        throw new BadStatusException("wrong status couple (" + response.getString("status") + ", " + response.getString("message") + "), conversation not deleted" );
+                    if (!(response.getString("status").equals("ok") && response.getString("message").equals("OK"))) {
+                        throw new BadStatusException("wrong status couple (" + response.getString("status") + ", " + response.getString("message") + "), conversation not deleted");
+                    }
                 } catch (JSONException e) {
                     throw new ContentException("Error while parsing JSON in new messages: " + e.getLocalizedMessage());
                 }
@@ -180,8 +176,9 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
             private Date parseDate(String messageString) throws ContentException {
 
                 int timestampPosition = messageString.indexOf("data-timestamp=\"");
-                if (timestampPosition < 0)
+                if (timestampPosition < 0) {
                     throw new ContentException("malformed response: " + messageString);
+                }
 
                 timestampPosition += 16;
 
@@ -198,8 +195,9 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
             private int parseSenderID(String messageString) throws ContentException {
 
                 int fromIDPosition = messageString.indexOf("data-fromid=\"");
-                if (fromIDPosition < 0)
+                if (fromIDPosition < 0) {
                     throw new ContentException("malformed response: " + messageString);
+                }
 
                 fromIDPosition += 13;
 
@@ -216,12 +214,14 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
             private String parseSender(String messageString) throws ContentException {
 
                 int closeLinkPosition = messageString.lastIndexOf("</a>", messageString.lastIndexOf("<time"));
-                if (closeLinkPosition < 0)
+                if (closeLinkPosition < 0) {
                     throw new ContentException("malformed response: " + messageString);
+                }
 
                 int nickStart = messageString.lastIndexOf('>', closeLinkPosition) + 1;
-                if (nickStart < 0)
+                if (nickStart < 0) {
                     throw new ContentException("malformed response: " + messageString);
+                }
 
                 return StringEscapeUtils.unescapeHtml4(messageString.substring(nickStart, closeLinkPosition));
 
@@ -235,9 +235,10 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
              */
             private String parseMessage(String messageString) throws ContentException {
 
-                int msgStart =  messageString.lastIndexOf("1pt solid #FFF\">") + 16;
-                if (msgStart <= 0)
+                int msgStart = messageString.lastIndexOf("1pt solid #FFF\">") + 16;
+                if (msgStart <= 0) {
                     throw new ContentException("malformed message string: " + messageString);
+                }
 
                 return this.removeTags(StringEscapeUtils.unescapeHtml4(messageString.substring(msgStart)));
 
@@ -325,7 +326,7 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
                 int lastCloseDivs, lastMessagePosition = 0;
                 List<String> messages = new LinkedList<String>();
                 while ((lastCloseDivs = list.indexOf("</div></div>", lastMessagePosition)) > 0) {
-                    messages.add(list.substring(lastMessagePosition,lastCloseDivs));
+                    messages.add(list.substring(lastMessagePosition, lastCloseDivs));
                     lastMessagePosition = lastCloseDivs + 12;
                 }
                 return messages;
@@ -341,17 +342,18 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
 
                 //If no conversation is present, return null
                 int beginning = table.indexOf("<tr ");
-                if (beginning < 0)
+                if (beginning < 0) {
                     return null;
+                }
 
                 //Everything except conversations table should be removed
                 table = table.substring(beginning, table.indexOf("</table>"));
                 int tdIndex, endTrIndex = 0;
 
-                while ( (tdIndex = table.indexOf("<td", endTrIndex)) != -1) {
+                while ((tdIndex = table.indexOf("<td", endTrIndex)) != -1) {
 
                     endTrIndex = table.indexOf("</tr>", endTrIndex + 5); //add 5 to last value found
-                    conversations.add(table.substring(tdIndex,endTrIndex));
+                    conversations.add(table.substring(tdIndex, endTrIndex));
 
                 }
                 return conversations;
@@ -366,24 +368,27 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
             private Conversation parseConversationRow(String row) throws ContentException {
 
                 int otherNamePosition = row.indexOf("<a href=");
-                if (otherNamePosition < 0)
+                if (otherNamePosition < 0) {
                     throw new ContentException("Malformed content \"" + row + "\"");
+                }
 
                 String otherName = StringEscapeUtils.unescapeHtml4(row.substring(row.indexOf('>', otherNamePosition) + 1, row.indexOf("</a>")));
 
                 int dataFromPosition = row.indexOf("data-from=\"");
-                if (dataFromPosition < 0)
+                if (dataFromPosition < 0) {
                     throw new ContentException("Malformed content \"" + row + "\"");
+                }
                 dataFromPosition += 11;
 
-                int dataFrom = Integer.parseInt(row.substring(dataFromPosition, row.indexOf('"',dataFromPosition)));
+                int dataFrom = Integer.parseInt(row.substring(dataFromPosition, row.indexOf('"', dataFromPosition)));
 
                 int dataTimePosition = row.indexOf("data-timestamp=\"");
-                if (dataTimePosition < 0)
+                if (dataTimePosition < 0) {
                     throw new ContentException("Malformed content \"" + row + "\"");
+                }
                 dataTimePosition += 16;
 
-                Date lastDate = new Date(Long.parseLong(row.substring(dataTimePosition, row.indexOf('"',dataTimePosition))) * 1000L);
+                Date lastDate = new Date(Long.parseLong(row.substring(dataTimePosition, row.indexOf('"', dataTimePosition))) * 1000L);
 
                 return new ReverseConversation(otherName, dataFrom, lastDate);
             }
@@ -393,18 +398,15 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
     }
 
 
-
-
-
     @Override
     public ConversationHandler getConversationHandler() {
-        return this.conversationHandler;
+        return this.mConversationHandler;
     }
 
     @Override
     public void sendMessage(String to, String message) throws IOException, HttpException, ContentException, BadStatusException {
 
-        HashMap<String,String> form = new HashMap<String, String>(2);
+        HashMap<String, String> form = new HashMap<String, String>(2);
 
         form.put("to", to);
         form.put("message", message);
@@ -412,8 +414,9 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
         try {
             JSONObject response = new JSONObject(this.post("/pages/pm/send.json.php", form, AbstractReverseApplication.NERDZ_DOMAIN_NAME + "/pm.php"));
 
-            if ( !( response.getString("status").equals("ok") && response.getString("message").equals("OK") ) )
-                throw new BadStatusException("wrong status couple (" + response.getString("status") + ", " + response.getString("message") + "), message not sent" );
+            if (!(response.getString("status").equals("ok") && response.getString("message").equals("OK"))) {
+                throw new BadStatusException("wrong status couple (" + response.getString("status") + ", " + response.getString("message") + "), message not sent");
+            }
         } catch (JSONException e) {
             throw new ContentException("Error while parsing JSON in new messages: " + e.getLocalizedMessage());
         }
@@ -427,5 +430,10 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
         } catch (JSONException e) {
             throw new ContentException("Error while parsing JSON in new messages: " + e.getLocalizedMessage());
         }
+    }
+
+    @Override
+    public Features[] getSupportedFeatures() {
+        return new Features[]{ Features.MESSENGER };
     }
 }

@@ -29,30 +29,30 @@ import eu.nerdz.api.messages.Message;
 class ReverseMessage implements Message {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 2838062641195124239L;
-    private String senderName, content;
-    private int senderID;
-    private Date date;
+    private String mSenderName, mContent;
+    private int mSenderID;
+    private Date mDate;
 
     public ReverseMessage(String senderName, String content, int senderID, Date date) {
 
-        this.senderName = senderName;
-        this.content = content;
-        this.senderID = senderID;
-        this.date = date;
+        this.mSenderName = senderName;
+        this.mContent = content;
+        this.mSenderID = senderID;
+        this.mDate = date;
 
     }
 
     @Override
     public String getSenderName() {
-        return this.senderName;
+        return this.mSenderName;
     }
 
     @Override
-    public int getSenderID() {
-        return this.senderID;
+    public int getmSenderID() {
+        return this.mSenderID;
     }
 
     @Override
@@ -61,17 +61,17 @@ class ReverseMessage implements Message {
     }
 
     @Override
-    public String getContent() {
-        return this.content;
+    public String getmContent() {
+        return this.mContent;
     }
 
     @Override
-    public Date getDate() {
-        return this.date;
+    public Date getmDate() {
+        return this.mDate;
     }
 
     @Override
     public String toString() {
-        return this.senderName + " (" + this.date + "): " + this.content;
+        return this.mSenderName + " (" + this.mDate + "): " + this.mContent;
     }
 }

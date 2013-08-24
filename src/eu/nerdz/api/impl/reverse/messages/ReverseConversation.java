@@ -29,38 +29,38 @@ import eu.nerdz.api.messages.Conversation;
 class ReverseConversation implements Conversation {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -6815925809655616400L;
-    private final String other;
-    private int userID;
-    private Date lastDate;
+    private final String mOther;
+    private int mUserID;
+    private Date mLastDate;
 
-    ReverseConversation(String userName, int userID, Date lastDate) {
-        this.other = userName;
-        this.userID = userID;
-        this.lastDate = lastDate;
+    public ReverseConversation(String userName, int userID, Date lastDate) {
+        this.mOther = userName;
+        this.mUserID = userID;
+        this.mLastDate = lastDate;
     }
 
     @Override
     public int getOtherID() {
 
-        return this.userID;
+        return this.mUserID;
 
     }
 
     @Override
     public String getOtherName() {
-        return this.other;
+        return this.mOther;
     }
 
     @Override
-    public Date getLastDate() {
-        return this.lastDate;
+    public Date getmLastDate() {
+        return this.mLastDate;
     }
 
     @Override
     public String toString() {
-        return this.other + " (" + this.userID + ") , last contact on " + this.lastDate;
+        return this.mOther + " (" + this.mUserID + ") , last contact on " + this.mLastDate;
     }
 }

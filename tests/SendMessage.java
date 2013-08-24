@@ -1,4 +1,4 @@
-import eu.nerdz.api.impl.reverse.messages.ReverseMessenger;
+import eu.nerdz.api.Nerdz;
 
 public class SendMessage {
 
@@ -11,7 +11,7 @@ public class SendMessage {
 				return;
 			}
 
-            new ReverseMessenger(args[0], args[1]).sendMessage(args[2], args[3]);            
+            Nerdz.getImplementation("reverse.Reverse").newMessenger(args[0], args[1]).sendMessage(args[2], args[3]);            
 
         } catch (Exception e) {
             e.printStackTrace();

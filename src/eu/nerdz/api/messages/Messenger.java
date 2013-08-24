@@ -27,7 +27,6 @@ import eu.nerdz.api.Application;
 import eu.nerdz.api.BadStatusException;
 import eu.nerdz.api.ContentException;
 import eu.nerdz.api.HttpException;
-import eu.nerdz.api.messages.ConversationHandler;
 
 
 /**
@@ -38,28 +37,31 @@ public interface Messenger extends Application {
 
     /**
      * Returns a ConversationHandler uniquely associated with this Messenger.
+     *
      * @return a ConversationHandler uniquely associated with this Messenger
      */
-    public ConversationHandler getConversationHandler();
+    public abstract ConversationHandler getConversationHandler();
 
     /**
      * Sends message to the user to.
-     * @param to a username
+     *
+     * @param to      a username
      * @param message some text to be sent
      * @throws IOException
      * @throws HttpException
      * @throws ContentException
      * @throws BadStatusException
      */
-    public void sendMessage(String to, String message) throws IOException, HttpException, ContentException, BadStatusException;
+    public abstract void sendMessage(String to, String message) throws IOException, HttpException, ContentException, BadStatusException;
 
     /**
      * returns the number of unread messages in the inbox.
+     *
      * @return an integer representing the number of unread messages in the inbox
      * @throws IOException
      * @throws HttpException
      * @throws ContentException
      */
-    public int newMessages() throws IOException, HttpException, ContentException;
+    public abstract int newMessages() throws IOException, HttpException, ContentException;
 
 }

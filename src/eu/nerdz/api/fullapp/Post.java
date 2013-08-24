@@ -17,13 +17,18 @@
     (C) 2013 Marco Cilloni <marco.cilloni@yahoo.com>
 */
 
-package eu.nerdz.api;
+package eu.nerdz.api.fullapp;
 
-public enum NotificationType {
-	BOARD_POST,
-	PROJECT_POST,
-	BOARD_COMMENT,
-	PROJECT_COMMENT,
-	NEW_FOLLOWER,
-	PROJECT_NEWS
+
+import eu.nerdz.api.ContentEntry;
+
+/**
+ * stub
+ */
+public interface Post extends ContentEntry<String> {
+    public abstract BoardType getType();
+
+    public abstract int getOwnerId();
+
+    public abstract int getBoardId();
 }

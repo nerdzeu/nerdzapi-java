@@ -17,14 +17,34 @@
     (C) 2013 Marco Cilloni <marco.cilloni@yahoo.com>
 */
 
-package eu.nerdz.api;
+package eu.nerdz.api.fullapp;
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+import eu.nerdz.api.Application;
 
 /**
  * stub
  */
-public enum BoardType {
-	HOME,
-	USER,
-	PROJECT
+
+public interface Board extends Application, Serializable {
+
+    public abstract List<Post> getPosts(int limit, int id, int boardId, BoardType board, Date start);
+
+    public abstract List<Post> getPosts(int limit, int id, int boardId, BoardType board);
+
+    public abstract List<Post> getPosts(int limit, int id, int boardId);
+
+    public abstract List<Post> getPosts(int limit, int id);
+
+    public abstract List<Post> getPosts(int limit);
+
+    public abstract List<Post> getPosts();
+
+    public abstract List<Notification> getNotifications(int limit);
+
+    public abstract int newNotifications();
+
 }

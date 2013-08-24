@@ -27,11 +27,11 @@ public class LoginException extends RuntimeException {
 
     private static final String DEFAULT_MSG = "wrong combination of username and password during the login session";
 
-    public LoginException(){
+    public LoginException() {
         this(LoginException.DEFAULT_MSG);
     }
 
-    public LoginException(String errMsg){
+    public LoginException(String errMsg) {
         super(errMsg);
     }
 

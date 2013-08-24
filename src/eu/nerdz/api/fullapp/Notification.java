@@ -17,13 +17,16 @@
     (C) 2013 Marco Cilloni <marco.cilloni@yahoo.com>
 */
 
-package eu.nerdz.api;
+package eu.nerdz.api.fullapp;
+
+import eu.nerdz.api.ContentEntry;
 
 /**
  * stub
  */
 public interface Notification extends ContentEntry<String> {
-	public NotificationType getNotificationType();
-	public boolean unread();
-	
+    public abstract NotificationType getNotificationType();
+
+    public abstract boolean unread();
+
 }

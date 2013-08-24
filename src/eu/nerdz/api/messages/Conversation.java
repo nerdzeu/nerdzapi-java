@@ -27,15 +27,17 @@ import java.util.Date;
  * An interface that acknowledges that a conversation between two users exists.
  * Every operation on it must be made with a ConversationHandler and the object itself must be created by it.
  */
-public interface Conversation  extends Serializable {
+public interface Conversation extends Serializable {
 
     /**
      * Returns the numeric ID of the other person in the conversation (being the first the user that is using this application)
+     *
      * @return a numeric ID
      */
-    public int getOtherID();
+    public abstract int getOtherID();
 
 
-    public String getOtherName();
-    public Date getLastDate();
+    public abstract String getOtherName();
+
+    public abstract Date getmLastDate();
 }

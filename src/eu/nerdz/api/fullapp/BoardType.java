@@ -17,14 +17,14 @@
     (C) 2013 Marco Cilloni <marco.cilloni@yahoo.com>
 */
 
-package eu.nerdz.api;
+package eu.nerdz.api.fullapp;
 
 
 /**
  * stub
  */
-public interface Post extends ContentEntry<String> {
-	public BoardType getType();
-	public int getOwnerId();
-	public int getBoardId();
+public enum BoardType {
+    HOME,
+    USER,
+    PROJECT
 }
