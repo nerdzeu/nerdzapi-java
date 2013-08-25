@@ -46,12 +46,12 @@ public interface ConversationHandler extends Serializable {
      * Returns a List containing the first <b>ten</b> messages from a given Conversation.
      *
      * @param conversation a conversation previously created by getConversations()
-     * @return a List containing the first <b>ten</b> messages from a given Conversation
+     * @return a List containing the first <b>ten</b> messages from a given Conversation,
      * @throws IOException
      * @throws HttpException
      * @throws ContentException
      */
-    public abstract List<Message> getMessagesFromConversation(Conversation conversation) throws IOException, HttpException, ContentException;
+    public abstract List<Message> getMessages(Conversation conversation) throws IOException, HttpException, ContentException;
 
     /**
      * Returns a List containing howMany messages from a given Conversation starting from the message at the position start.
@@ -64,7 +64,18 @@ public interface ConversationHandler extends Serializable {
      * @throws HttpException
      * @throws ContentException
      */
-    public abstract List<Message> getMessagesFromConversation(Conversation conversation, int start, int howMany) throws IOException, HttpException, ContentException;
+    public abstract List<Message> getMessages(Conversation conversation, int start, int howMany) throws IOException, HttpException, ContentException;
+
+    /**
+     * Returns the last message of the given Conversation.
+     *
+     * @param conversation a conversation previously created by getConversations()
+     * @return the last message sent or received in conversation
+     * @throws IOException
+     * @throws HttpException
+     * @throws ContentException
+     */
+    public abstract Message getLastMessage(Conversation conversation) throws IOException, HttpException, ContentException;
 
     /**
      * Deletes the given conversation. Every consecutive call to getConversations() will have no trace of this conversation.

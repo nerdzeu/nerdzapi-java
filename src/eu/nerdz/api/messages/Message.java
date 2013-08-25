@@ -27,7 +27,7 @@ import eu.nerdz.api.ContentEntry;
 public interface Message extends ContentEntry<String> {
     public abstract String getSenderName();
 
-    public abstract int getmSenderID();
+    public abstract int getSenderID();
 
     public abstract boolean read(); //stub
 }

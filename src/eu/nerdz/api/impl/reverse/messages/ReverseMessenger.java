@@ -110,12 +110,12 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
             }
 
             @Override
-            public List<Message> getMessagesFromConversation(Conversation conversation) throws IOException, HttpException, ContentException {
-                return this.getMessagesFromConversation(conversation, 0, 10);
+            public List<Message> getMessages(Conversation conversation) throws IOException, HttpException, ContentException {
+                return this.getMessages(conversation, 0, 10);
             }
 
             @Override
-            public List<Message> getMessagesFromConversation(Conversation conversation, int start, int howMany) throws IOException, HttpException, ContentException {
+            public List<Message> getMessages(Conversation conversation, int start, int howMany) throws IOException, HttpException, ContentException {
                 List<Message> messages;
                 HashMap<String, String> form = new HashMap<String, String>(4);
                 form.put("from", String.valueOf(conversation.getOtherID()));
@@ -145,6 +145,16 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
                 }
 
                 return messages;
+            }
+
+            @Override
+            public Message getLastMessage(Conversation conversation) throws IOException, HttpException, ContentException {
+                List<Message> messages =  this.getMessages(conversation, 0, 1);
+
+                if (messages.size() != 1)
+                    throw new ContentException("Something is very broken in NERDZ. Report to nessuno ASAP that read.html.php?action=conversation is broken");
+
+                return messages.get(1);
             }
 
             @Override

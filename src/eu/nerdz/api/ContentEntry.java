@@ -35,12 +35,12 @@ public interface ContentEntry<E> extends Serializable {
      *
      * @return the content associated with this entry
      */
-    public abstract E getmContent();
+    public abstract E getContent();
 
     /**
      * Return a precise instant associated with this content.
      *
      * @return a date
      */
-    public abstract Date getmDate();
+    public abstract Date getDate();
 }

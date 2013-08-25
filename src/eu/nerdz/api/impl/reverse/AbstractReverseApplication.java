@@ -414,6 +414,10 @@ public abstract class AbstractReverseApplication implements Application {
             return this.mUserName;
         }
 
+        public String getNerdzU() {
+            return this.mNerdzU.getValue();
+        }
+
         @Override
         public void writeExternal(ObjectOutput outputStream) throws IOException {
             outputStream.writeObject(this.mUserName);

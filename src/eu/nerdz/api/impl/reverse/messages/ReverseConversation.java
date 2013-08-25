@@ -55,7 +55,7 @@ class ReverseConversation implements Conversation {
     }
 
     @Override
-    public Date getmLastDate() {
+    public Date getLastDate() {
         return this.mLastDate;
     }
 

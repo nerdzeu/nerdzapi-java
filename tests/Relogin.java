@@ -19,14 +19,15 @@ public class Relogin {
 
 			Nerdz nerdz = Nerdz.getImplementation("reverse.Reverse");
 
-            UserInfo userInfo = nerdz.logAndGetInfo(args[0], args[1]);
-			Messenger messenger = nerdz.newMessenger(userInfo);
+            String data = nerdz.serializeToString(nerdz.logAndGetInfo(args[0], args[1]));
+			System.out.println(data + '\n');
+			Messenger messenger = nerdz.newMessenger(nerdz.deserializeFromString(data));
             ConversationHandler conversationHandler = messenger.getConversationHandler();
 
             for (Conversation conversation : conversationHandler.getConversations()) {
 
                 System.out.println(conversation.toString() + "\n");
-                for(Message message : conversationHandler.getMessagesFromConversation(conversation))
+                for(Message message : conversationHandler.getMessages(conversation))
                     System.out.println(message);
                 System.out.println();
 

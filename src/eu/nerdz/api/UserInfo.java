@@ -8,7 +8,16 @@ import java.io.Externalizable;
  */
 public interface UserInfo extends Externalizable {
 
+    /**
+     * Gets the NerdzID associated with this account.
+     * @return a NerdzID.
+     */
     public abstract int getNerdzID();
 
+    /**
+     * Gets the Nerdz username associated with this account.
+     * @return a Nerdz username
+     */
     public abstract String getUsername();
+
 }

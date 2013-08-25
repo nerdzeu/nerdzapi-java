@@ -22,7 +22,7 @@ public class ReadConversations {
             for (Conversation conversation : conversationHandler.getConversations()) {
 
                 System.out.println(conversation.toString() + "\n");
-                for(Message message : conversationHandler.getMessagesFromConversation(conversation))
+                for(Message message : conversationHandler.getMessages(conversation))
                     System.out.println(message);
                 System.out.println();
 

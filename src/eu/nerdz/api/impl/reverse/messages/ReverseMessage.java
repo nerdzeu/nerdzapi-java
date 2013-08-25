@@ -51,7 +51,7 @@ class ReverseMessage implements Message {
     }
 
     @Override
-    public int getmSenderID() {
+    public int getSenderID() {
         return this.mSenderID;
     }
 
@@ -61,12 +61,12 @@ class ReverseMessage implements Message {
     }
 
     @Override
-    public String getmContent() {
+    public String getContent() {
         return this.mContent;
     }
 
     @Override
-    public Date getmDate() {
+    public Date getDate() {
         return this.mDate;
     }
 

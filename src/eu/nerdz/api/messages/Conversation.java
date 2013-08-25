@@ -39,5 +39,5 @@ public interface Conversation extends Serializable {
 
     public abstract String getOtherName();
 
-    public abstract Date getmLastDate();
+    public abstract Date getLastDate();
 }

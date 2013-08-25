@@ -60,6 +60,21 @@ public abstract class Nerdz implements Serializable {
     }
 
     /**
+     * Gives a string representation of an UserInfo created from this implementation.
+     * This is particularly useful on Android, particularly in AccountManager.
+     * @param userInfo UserInfo created by this implementation
+     * @return a string representing userInfo
+     */
+    public abstract String serializeToString(UserInfo userInfo) throws WrongUserInfoTypeException;
+
+    /**
+     * Gives a UserInfo of this implementation from a string serialized by serializeToString.
+     * @param data a String returned by this implementation serializeToString
+     * @return
+     */
+    public abstract UserInfo deserializeFromString(String data) throws WrongUserInfoTypeException;
+
+    /**
      * Logs in and returns valid serializable data usable for a future login.
      *
      * @param userName A valid NERDZ userName

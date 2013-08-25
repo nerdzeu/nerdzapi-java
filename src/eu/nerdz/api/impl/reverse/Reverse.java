@@ -9,6 +9,7 @@ import eu.nerdz.api.LoginException;
 import eu.nerdz.api.Nerdz;
 import eu.nerdz.api.UserInfo;
 import eu.nerdz.api.WrongUserInfoTypeException;
+import eu.nerdz.api.impl.reverse.AbstractReverseApplication.ReverseUserInfo;
 import eu.nerdz.api.impl.reverse.messages.ReverseMessenger;
 import eu.nerdz.api.messages.Messenger;
 
@@ -19,6 +20,32 @@ import eu.nerdz.api.messages.Messenger;
 class Reverse extends Nerdz {
 
     public Reverse() {}
+
+    @Override
+    public String serializeToString(UserInfo userInfo) throws WrongUserInfoTypeException {
+
+        ReverseUserInfo reverseUserInfo = (ReverseUserInfo)  userInfo;
+
+        return reverseUserInfo.getUsername() + ' ' + reverseUserInfo.getNerdzIdCookie().getValue() + ' ' + reverseUserInfo.getNerdzU();
+    }
+
+    @Override
+    public UserInfo deserializeFromString(String data) throws WrongUserInfoTypeException {
+
+        String[] fields = data.split(" ");
+
+        if (fields.length != 3)
+            throw new WrongUserInfoTypeException("Data passed is not a Reverse serialization");
+
+        try {
+            Integer.parseInt(fields[1]);
+
+        } catch (NumberFormatException e) {
+            throw new WrongUserInfoTypeException("Not numeric userID; this is not a Reverse serialization");
+        }
+
+        return new ReverseUserInfo(fields[0], fields[1], fields[2]);
+    }
 
     @Override
     public UserInfo logAndGetInfo(String userName, String password) throws IOException, HttpException, LoginException {
