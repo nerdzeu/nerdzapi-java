@@ -154,7 +154,7 @@ public class ReverseMessenger extends AbstractReverseApplication implements Mess
                 if (messages.size() != 1)
                     throw new ContentException("Something is very broken in NERDZ. Report to nessuno ASAP that read.html.php?action=conversation is broken");
 
-                return messages.get(1);
+                return messages.get(0);
             }
 
             @Override
