@@ -22,9 +22,7 @@ public class OneConversation {
             for (Conversation conversation : conversationHandler.getConversations()) {
 
                 System.out.println(conversation.toString() + "\n");
-                for(Message message : conversationHandler.getMessages(conversation, 0, 1))
-                    System.out.println(message);
-                System.out.println();
+                System.out.println(conversationHandler.getLastMessage(conversation).toString() + '\n');
 
             }
 

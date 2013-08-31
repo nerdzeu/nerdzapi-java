@@ -43,7 +43,7 @@ public interface ConversationHandler extends Serializable {
     public abstract List<Conversation> getConversations() throws IOException, HttpException, ContentException;
 
     /**
-     * Returns a List containing the first <b>ten</b> messages from a given Conversation.
+     * Returns a List containing from 1 to <b>ten</b> messages from a given Conversation.
      *
      * @param conversation a conversation previously created by getConversations()
      * @return a List containing the first <b>ten</b> messages from a given Conversation,
@@ -54,7 +54,7 @@ public interface ConversationHandler extends Serializable {
     public abstract List<Message> getMessages(Conversation conversation) throws IOException, HttpException, ContentException;
 
     /**
-     * Returns a List containing howMany messages from a given Conversation starting from the message at the position start.
+     * Returns a List containing from 1 to howMany messages from a given Conversation starting from the message at the position start.
      *
      * @param conversation a conversation previously created by getConversations()
      * @param start        indicates that fetching of messages should begin from the message at this position.
@@ -87,5 +87,12 @@ public interface ConversationHandler extends Serializable {
      * @throws ContentException
      */
     public abstract void deleteConversation(Conversation conversation) throws IOException, HttpException, BadStatusException, ContentException;
+
+    /**
+     * Creates a MessageFetcher for the current conversation.
+     * @param conversation
+     * @return
+     */
+    public abstract MessageFetcher createFetcher(Conversation conversation);
 
 }

@@ -47,12 +47,13 @@ public interface Messenger extends Application {
      *
      * @param to      a username
      * @param message some text to be sent
+     * @return a new Message containing the message we've just sent
      * @throws IOException
      * @throws HttpException
      * @throws ContentException
      * @throws BadStatusException
      */
-    public abstract void sendMessage(String to, String message) throws IOException, HttpException, ContentException, BadStatusException;
+    public abstract Message sendMessage(String to, String message) throws IOException, HttpException, ContentException, BadStatusException;
 
     /**
      * returns the number of unread messages in the inbox.

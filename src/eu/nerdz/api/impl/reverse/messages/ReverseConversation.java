@@ -23,9 +23,6 @@ import java.util.Date;
 
 import eu.nerdz.api.messages.Conversation;
 
-/**
- * Created by marco on 7/20/13.
- */
 class ReverseConversation implements Conversation {
 
     /**

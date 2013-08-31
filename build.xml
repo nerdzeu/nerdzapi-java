@@ -72,7 +72,7 @@
 
 
 	<target name="rebuild" depends="clean,tests" />
-	<target name="rebuild-debug" depends="clean,jar-debug" />
+	<target name="rebuild-debug" depends="clean,tests-debug" />
 	<target name="all" depends="tests,docs" />
 
 </project>
