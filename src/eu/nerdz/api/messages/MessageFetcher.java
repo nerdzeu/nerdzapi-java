@@ -2,6 +2,7 @@ package eu.nerdz.api.messages;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 
 import eu.nerdz.api.ContentException;
 import eu.nerdz.api.HttpException;
@@ -31,17 +32,29 @@ public interface MessageFetcher extends Serializable, Iterable<Message>, Convers
 
     /**
      * Forces the start of iteration and fetching from the start-th message, starting from 0.
-     * Per example, if fetch() is called after setStart(6), fetch() will fetch messages from 6 to 15 if possible.
+     * Per example, if fetch() is called after setStart(6), fetch() will fetch messages from 6 to 15 if possible and the implementation allows it.
      * If an illegal index is set a RuntimeException will be raised during fetch or iteration, so use it with caution.
      * @param start an integer number indicating the new start value
      */
     public abstract void setStart(int start);
 
     /**
-     * Returns the current start value.
+     * Returns the current iteration start value.
      * @return the current start value
      */
-    public abstract int getStart();
+    public abstract int getIterateStart();
+
+    /**
+     * Returns the current fetch start value.
+     * @return the current start value
+     */
+    public abstract int getFetchStart();
+
+    /**
+     * Returns all the messages fetched since now, moving message counter to the end.
+     * @return a list of messages
+     */
+    public abstract List<Message> getFetchedMessages();
 
     /**
      * Resets internal data, deleting from memory everything contained in this fetcher and setting fetch start to 0.

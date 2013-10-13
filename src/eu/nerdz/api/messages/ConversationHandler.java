@@ -28,7 +28,7 @@ import eu.nerdz.api.ContentException;
 import eu.nerdz.api.HttpException;
 
 /**
- * This interface is meant to be created by a Messenger, and allows operations on Conversations, like fetching all existing conversations, getting messages from one and deleting them.
+ * This interface is meant to be bounded to a Messenger, and allows operations on Conversations, like fetching all existing conversations, getting messages from one and deleting them.
  */
 public interface ConversationHandler extends Serializable {
 
@@ -41,6 +41,15 @@ public interface ConversationHandler extends Serializable {
      * @throws ContentException
      */
     public abstract List<Conversation> getConversations() throws IOException, HttpException, ContentException;
+
+    /**
+     * Returns a List containing the current conversations list as MessageFetchers
+     * @return a List containing the current conversations list as MessageFetchers
+     * @throws IOException
+     * @throws HttpException
+     * @throws ContentException
+     */
+    public abstract List<MessageFetcher> getConversationsAsFetchers() throws IOException, HttpException, ContentException;
 
     /**
      * Returns a List containing from 1 to <b>ten</b> messages from a given Conversation.
