@@ -53,6 +53,13 @@ public interface Application extends Serializable {
     public abstract UserInfo getUserInfo();
 
     /**
+     * Returns the numeric ID of a given Username.
+     * @param userName an userName
+     * @return
+     */
+    public abstract int getUserIdForName(String userName) throws UserNotFoundException, IOException, HttpException, ContentException;
+
+    /**
      * Returns features associated with this Application.
      */
 

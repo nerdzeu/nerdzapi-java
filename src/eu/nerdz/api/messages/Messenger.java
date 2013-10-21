@@ -27,6 +27,7 @@ import eu.nerdz.api.Application;
 import eu.nerdz.api.BadStatusException;
 import eu.nerdz.api.ContentException;
 import eu.nerdz.api.HttpException;
+import eu.nerdz.api.UserNotFoundException;
 
 
 /**
@@ -52,8 +53,9 @@ public interface Messenger extends Application {
      * @throws HttpException
      * @throws ContentException
      * @throws BadStatusException
+     * @throws UserNotFoundException
      */
-    public abstract Message sendMessage(String to, String message) throws IOException, HttpException, ContentException, BadStatusException;
+    public abstract Message sendMessage(String to, String message) throws UserNotFoundException, IOException, HttpException, ContentException, BadStatusException;
 
     /**
      * returns the number of unread messages in the inbox.

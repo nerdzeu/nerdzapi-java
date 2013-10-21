@@ -36,8 +36,19 @@ public interface Conversation extends Serializable {
      */
     public abstract int getOtherID();
 
-
+    /**
+    * Returns the username of the other person in the conversation (being the first the user that is using this application)
+    *
+    * @return a numeric ID
+    */
     public abstract String getOtherName();
 
     public abstract Date getLastDate();
+
+    /**
+     * Updates the conversation with the info from the given message. If the message does not own to this
+     * conversation, it throws a ContentException.
+     * @param message
+     */
+    public abstract void updateConversation(Message message);
 }

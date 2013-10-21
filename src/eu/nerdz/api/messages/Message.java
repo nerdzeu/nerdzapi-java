@@ -22,12 +22,14 @@ package eu.nerdz.api.messages;
 import eu.nerdz.api.ContentEntry;
 
 /**
- * This ContentEntry<String> represents a Message.
+ * This ContentEntry<String> represents a Message. The message must be created by a ConversationHandler
+ * and must exist in relationship with a conversation.
  */
 public interface Message extends ContentEntry<String> {
-    public abstract String getSenderName();
 
-    public abstract int getSenderID();
+    public abstract Conversation thisConversation();
 
-    public abstract boolean read(); //stub
+    public abstract boolean received();
+
+    public abstract boolean read();
 }
