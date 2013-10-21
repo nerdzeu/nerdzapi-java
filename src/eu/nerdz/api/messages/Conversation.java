@@ -46,6 +46,23 @@ public interface Conversation extends Serializable {
     public abstract Date getLastDate();
 
     /**
+     * Returns true if this conversation has new messages, false otherwise.
+     * @return true if this conversation has new messages, false otherwise.
+     */
+    public abstract boolean hasNewMessages();
+
+    /**
+     * Toggles new messages value.
+     */
+    public abstract void toggleHasNewMessages();
+
+    /**
+     * Sets new messages value to newStatus.
+     * @param newStatus
+     */
+    public abstract void setHasNewMessages(boolean newStatus);
+
+    /**
      * Updates the conversation with the info from the given message. If the message does not own to this
      * conversation, it throws a ContentException.
      * @param message
