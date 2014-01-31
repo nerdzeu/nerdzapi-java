@@ -77,6 +77,15 @@ public interface Application extends Serializable {
     public abstract void registerForPush(String devId) throws IOException, HttpException, ContentException;
 
     /**
+     * Unregisters devId for push.
+     * @param devId an arbitrary string representing a device
+     * @throws IOException
+     * @throws HttpException
+     * @throws ContentException
+     */
+    public abstract void unregisterFromPush(String devId) throws IOException, HttpException, ContentException;
+
+    /**
      * Indicates the different features that an Application can have.
      */
     public static enum Features {
