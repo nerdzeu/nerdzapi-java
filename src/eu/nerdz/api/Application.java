@@ -65,7 +65,16 @@ public interface Application extends Serializable {
 
     public abstract Features[] getSupportedFeatures();
 
-    public boolean checkValidity() throws IOException, HttpException;
+    public abstract boolean checkValidity() throws IOException, HttpException;
+
+    /**
+     * Registers devId for push.
+     * @param devId an arbitrary string representing a device
+     * @throws IOException
+     * @throws HttpException
+     * @throws ContentException
+     */
+    public abstract void registerForPush(String devId) throws IOException, HttpException, ContentException;
 
     /**
      * Indicates the different features that an Application can have.
