@@ -74,7 +74,7 @@ public interface Application extends Serializable {
      * @throws HttpException
      * @throws ContentException
      */
-    public abstract void registerForPush(String devId) throws IOException, HttpException, ContentException;
+    public abstract void registerForPush(String service, String devId) throws IOException, HttpException, ContentException;
 
     /**
      * Unregisters devId for push.
@@ -83,7 +83,7 @@ public interface Application extends Serializable {
      * @throws HttpException
      * @throws ContentException
      */
-    public abstract void unregisterFromPush(String devId) throws IOException, HttpException, ContentException;
+    public abstract void unregisterFromPush(String service, String devId) throws IOException, HttpException, ContentException;
 
     /**
      * Indicates the different features that an Application can have.
